@@ -4,7 +4,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import Header from './Header'
 import Home from './Home'
-import DevTools from './DevTools'
 
 const App =() => {
   return (
@@ -12,8 +11,6 @@ const App =() => {
       <div>
         <Header />
         <Home />
-        {/*<Repository/>*/}
-        <DevTools />
       </div>
     </MuiThemeProvider>
   )

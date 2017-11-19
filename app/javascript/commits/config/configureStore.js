@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 
 import { authStateReducer as auth } from 'redux-oauth';
 
-import DevTools from '../components/DevTools';
+// import DevTools from '../components/DevTools';
 import test from '../redux/reducers';
 
 const configureStore = (initialState = {}) => {
@@ -15,8 +15,7 @@ const configureStore = (initialState = {}) => {
     }),
     initialState,
     compose(
-      applyMiddleware(thunk),
-      DevTools.instrument()
+      applyMiddleware(thunk)
     )
   );
 }

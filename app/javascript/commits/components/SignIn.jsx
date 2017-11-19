@@ -13,7 +13,7 @@ const SignIn = () => {
     <Card style={cardStyle}>
       <CardTitle title="Sign In" subtitle="Authenticate with GitHub" />
       <CardText>
-        Press 'Sign In' button to sign with GitHub and see news listllentesque.
+        Press 'Sign In' button to sign in with GitHub and see news list
       </CardText>
       <CardActions>
         <OAuthButton provider='github' />
