@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -22,17 +23,22 @@ const messageHeadlineStyle = {
   paddingTop: 4,
   fontSize: '16px'
 };
+
 const messageBodyStyle = {
   paddingTop: 0,
   fontSize: '14px'
 };
 
 export default class CommitItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false,
-    };
+
+  static propTypes = {
+    resize: PropTypes.func,
+    dispatch: PropTypes.func,
+    commitData: PropTypes.object
+  }
+
+  state = {
+    expanded: false
   }
 
   handleExpandChange = (expanded) => {

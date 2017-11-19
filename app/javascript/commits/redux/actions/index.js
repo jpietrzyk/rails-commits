@@ -20,7 +20,7 @@ export function apiRequest() {
   return dispatch => {
     dispatch(apiStart());
 
-    return dispatch(fetch('localhost:3000/test/test'))
+    return dispatch(fetch('http://localhost:3000/test/test'))
       .then(parseResponse)
       .then(({ payload }) => dispatch(apiDone(payload)))
       .catch(errors => dispatch(apiError(errors)));

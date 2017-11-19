@@ -1,12 +1,10 @@
 import React, { Component }  from 'react';
 
-import UserInfo from './UserInfo';
+import Feed from './Feed';
 
 const Home = () => {
   return (
-    <div>
-      <UserInfo />
-    </div>
+    <Feed />
   );
 }
 

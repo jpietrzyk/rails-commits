@@ -2,85 +2,25 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { ApolloProvider } from 'react-apollo'
-import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http';
-import { onError } from 'apollo-link-error';
-import { ApolloLink, concat } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
-import { InMemoryCache } from 'apollo-cache-inmemory'
 
-import { initialize, authStateReducer } from 'redux-oauth';
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
+import configureClient from './config/configureClient'
 
-import test from './reducers';
+import { initialize } from 'redux-oauth'
+import { Provider } from 'react-redux'
+
+import configureStore from './config/configureStore'
+import configureOauth from './config/configureOauth'
+
 import DevTools from './components/DevTools';
 import App from './components/App'
 
-const TOKEN='secret'
+const initialState  = window.__INITIAL_STATE__ || {};
 
-const link = new HttpLink({
-  uri: 'https://api.github.com/graphql',
-  credentials: true
-});
+const store = configureStore(initialState);
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${location}, Path: ${path}`
-      )
-    );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
-});
+const client = configureClient()
 
-const authMiddleware = new ApolloLink((operation, forward) => {
-  // add the authorization to the headers
-  operation.setContext({
-    headers: {
-      authorization: `Bearer ${TOKEN}`
-    }
-  });
-
-  return forward(operation);
-})
-
-const client = new ApolloClient({
-	link: ApolloLink.from([
-    errorLink,
-    concat(authMiddleware, link)
-  ]),
-  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
-  addTypename: true,
-});
-
-
-// Authentication and store setup
-
-const store = createStore(
-  combineReducers({
-    auth: authStateReducer,
-    test
-  }),
-  {},
-  compose(
-    applyMiddleware(thunk),
-    DevTools.instrument()
-  )
-);
-
-const reduxOauthConfig = {
-  backend: {
-    apiUrl:       'http://localhost:3000',
-    signOutPath:  null,
-    authProviderPaths: {
-      github: '/auth/github'
-    }
-  },
-  cookies: document.cookie,
-  currentLocation: document.URL
-};
+const reduxOauthConfig = configureOauth()
 
 const commits = document.querySelector('#commits')
 
