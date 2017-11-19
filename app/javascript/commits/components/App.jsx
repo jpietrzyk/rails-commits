@@ -1,30 +1,18 @@
 import React, { Component } from 'react'
-import Appbar from 'muicss/lib/react/appbar';
-import Button from 'muicss/lib/react/button';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Divider from 'material-ui/Divider'
-import AppBar from 'material-ui/AppBar'
 
-import Repository from './Repository'
-import OAuthButton from './OAuthButton'
-import SignOutButton from './SignOutButton'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
+import Header from './Header'
+import Home from './Home'
 import DevTools from './DevTools'
 
-const App =(props) => {
-  console.log(props)
+const App =() => {
   return (
     <MuiThemeProvider>
       <div>
-        <AppBar
-          title="Rails Commits"
-          showMenuIconButton={true}
-        />
-        <Divider/>
-        <div key='AuthBtns'>
-          <OAuthButton provider='github' key='OAuthGitHubBtn'>GitHub</OAuthButton>
-          <SignOutButton key='SignOutBtn' />
-        </div>
-        <Repository/>
+        <Header />
+        <Home />
+        {/*<Repository/>*/}
         <DevTools />
       </div>
     </MuiThemeProvider>

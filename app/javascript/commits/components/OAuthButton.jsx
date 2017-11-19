@@ -7,8 +7,9 @@ import classnames from 'classnames'
 import { oAuthSignIn } from 'redux-oauth'
 
 import omit from 'lodash/omit'
-import ButtonLoader from 'react-bootstrap-button-loader';
-import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import ActionAndroid from 'material-ui/svg-icons/action/android';
+import FontIcon from 'material-ui/FontIcon';
 
 class OAuthSignInButton extends Component {
   static propTypes = {
@@ -23,8 +24,7 @@ class OAuthSignInButton extends Component {
   };
 
   static defaultProps = {
-    children: <span>OAuth Sign In</span>,
-    icon: null
+    label: 'Sign In'
   };
 
   handleClick = () => {
@@ -41,8 +41,7 @@ class OAuthSignInButton extends Component {
     const style = {};
 
     return (
-      <RaisedButton
-        icon = {icon}
+      <FlatButton
         disabled = {disabled}
         onClick = {this.handleClick}
         {...restProps}
@@ -57,12 +56,6 @@ function mapStateToProps({ auth }, ownProps) {
 
   return { disabled, loading };
 }
-
-// const mapDispatchToProps = (dispatch) => {
-//   // onClick: provider => {
-//   //   dispatch
-//   // }
-// }
 
 export default connect(
   mapStateToProps,
