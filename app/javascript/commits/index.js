@@ -9,9 +9,16 @@ import { ApolloLink, concat } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
+import { initialize, authStateReducer } from 'redux-oauth';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+
+import test from './reducers';
+import DevTools from './components/DevTools';
 import App from './components/App'
 
-const TOKEN='your_secret_token'
+const TOKEN='secret'
 
 const link = new HttpLink({
   uri: 'https://api.github.com/graphql',
@@ -48,11 +55,44 @@ const client = new ApolloClient({
   addTypename: true,
 });
 
+
+// Authentication and store setup
+
+const store = createStore(
+  combineReducers({
+    auth: authStateReducer,
+    test
+  }),
+  {},
+  compose(
+    applyMiddleware(thunk),
+    DevTools.instrument()
+  )
+);
+
+const reduxOauthConfig = {
+  backend: {
+    apiUrl:       'http://localhost:3000',
+    signOutPath:  null,
+    authProviderPaths: {
+      github: '/auth/github'
+    }
+  },
+  cookies: document.cookie,
+  currentLocation: document.URL
+};
+
 const commits = document.querySelector('#commits')
 
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
-  , commits
+store.dispatch(initialize(reduxOauthConfig)).then(
+  () => {
+    ReactDOM.render(
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </Provider>
+      , commits
+    )
+  }
 )

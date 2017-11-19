@@ -6,8 +6,12 @@ import Divider from 'material-ui/Divider'
 import AppBar from 'material-ui/AppBar'
 
 import Repository from './Repository'
+import OAuthButton from './OAuthButton'
+import SignOutButton from './SignOutButton'
+import DevTools from './DevTools'
 
-const App =() => {
+const App =(props) => {
+  console.log(props)
   return (
     <MuiThemeProvider>
       <div>
@@ -16,7 +20,12 @@ const App =() => {
           showMenuIconButton={true}
         />
         <Divider/>
+        <div key='AuthBtns'>
+          <OAuthButton provider='github' key='OAuthGitHubBtn'>GitHub</OAuthButton>
+          <SignOutButton key='SignOutBtn' />
+        </div>
         <Repository/>
+        <DevTools />
       </div>
     </MuiThemeProvider>
   )
